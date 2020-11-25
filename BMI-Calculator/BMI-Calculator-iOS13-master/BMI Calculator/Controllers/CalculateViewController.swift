@@ -47,6 +47,9 @@ class CalculateViewController: UIViewController {
             // sender.destination: sender.destination will be the ResultViewController initialised when the segue gets trigerred
             let destinationVC = segue.destination as! ResultViewController
             destinationVC.bmiValue = calculatorBrain.getBMIValue()
+            destinationVC.advice = calculatorBrain.getAdvice()
+            destinationVC.color = calculatorBrain.getColor()
+
         }
     }
     

@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -148,6 +149,7 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="result_background" translatesAutoresizingMaskIntoConstraints="NO" id="r83-N3-Ash">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <color key="tintColor" systemColor="linkColor"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="I5P-Pc-Lq3">
                                 <rect key="frame" x="89" y="332.5" width="236" height="177.5"/>
@@ -210,6 +212,7 @@
                     <connections>
                         <outlet property="adviceLabel" destination="9IV-CT-mxw" id="FzI-44-NoI"/>
                         <outlet property="bmiLabel" destination="VU9-2W-Sd5" id="tkc-Xh-FWB"/>
+                        <outlet property="colorView" destination="A2l-zF-O8p" id="NuE-mZ-bMw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4fn-rV-g4l" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -220,5 +223,8 @@
     <resources>
         <image name="calculate_background" width="375" height="812"/>
         <image name="result_background" width="375" height="812"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>
