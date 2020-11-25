@@ -10,7 +10,7 @@ import UIKit
 
 class CalculateViewController: UIViewController {
     
-    var bmiValue = "0.0"
+    var calculatorBrain = CalculatorBrain()
 
     @IBOutlet weak var heightSlider: UISlider!
     @IBOutlet weak var weightSlider: UISlider!
@@ -32,12 +32,7 @@ class CalculateViewController: UIViewController {
         let height = heightSlider.value
         let weight = weightSlider.value
         
-        let bmi = weight / pow(height, 2)
-        bmiValue = String(format: "%.1f", bmi)
-        
-        // let secondVC = SecondViewController()
-        // secondVC.bmiValue = String(format: "%0.1f", bmi)
-        // self.present(secondVC, animated: true, completion: nil)
+        calculatorBrain.calculateBMI(height: height, weight: weight)
         
         /* We will use a method that every UIViewController has. we inherited the method in our class.
             withIdentifier: "the name we provide in Main.storyboard"
@@ -51,7 +46,7 @@ class CalculateViewController: UIViewController {
         if segue.identifier == "goToResult" {
             // sender.destination: sender.destination will be the ResultViewController initialised when the segue gets trigerred
             let destinationVC = segue.destination as! ResultViewController
-            destinationVC.bmiValue = bmiValue
+            destinationVC.bmiValue = calculatorBrain.getBMIValue()
         }
     }
     
