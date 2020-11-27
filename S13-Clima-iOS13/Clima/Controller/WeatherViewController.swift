@@ -15,6 +15,8 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!    // so an instance of UITextField is auto set for us by xcode
     
+    var weatherManager = WeatherManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,6 +49,11 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     // our controller, by being the delegate, will be notified when textField end editing
     // implement special method that will be fired when .endEditing(true) is fired
     func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if let city =  searchTextField.text {    // searchTextField is string? optional and we need to pass string to fetchWeather(). we will use if let to unwrapsearchTextField.text
+            weatherManager.fetchWeather(cityName: city)
+        }
+        
         // textField.text = "55" // ref to the one ended editing
          searchTextField.text = "" // clear field
     }
