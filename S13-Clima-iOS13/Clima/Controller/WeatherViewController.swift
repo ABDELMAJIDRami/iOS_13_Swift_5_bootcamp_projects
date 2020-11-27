@@ -13,7 +13,7 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var searchTextField: UITextField!    // so an instance of UITextField is auto set for us by xcode
     
     override func viewDidLoad() {
         super.viewDidLoad()
