@@ -26,23 +26,33 @@ struct WeatherManager {
             let session = URLSession(configuration: .default)   // default configuration. I think it is like promise in js. the thing that perform the networking
             
             // 3- give URLSession a task
-            let task = session.dataTask(with: url, completionHandler: handler(data:response:error:)) // will return a task - passing refernece to our callback handler
+            let task = session.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return  // exist the fct
+                }
+                
+                if let safeData = data {
+                    // .utf8 was used for string encoding(transform data into string)
+                    // but we want to convert data to swift object -> JSON encoding
+                    parseJson(weatherData: safeData)
+                }
+            }
             
             // 4- Start the task
             task.resume()   // desc: Newly-initialized tasks begin in a suspended state, so you need to call this method to start the task.
         }
     }
     
-    func handler(data: Data?, response: URLResponse?, error: Error?) {
-        if error != nil {
-            print(error!)
-            return  // exist the fct
-        }
-        
-        if let safeData = data {
-            // let dataString = String(data: safeData, encoding: String.Encoding.utf8)
-            let dataString = String(data: safeData, encoding: .utf8)    // encoding for most of the data that we get from the internet is utf8 - standarised protocol for encoding text in websites
-            print(dataString)
+    func parseJson(weatherData: Data) {
+        // we should inform our compiler how our data is structured - we can do that through a structure we create (exp: WeatherData.swift)
+        let decoder = JSONDecoder()
+        do {
+            let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
+            // decodedData is of type WeatherData
+            print(decodedData.weather[0].description)
+        } catch {
+            print(error)
         }
     }
 }
