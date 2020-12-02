@@ -70,8 +70,12 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         return false; // don't allow the user to stop editing - keep the keyboard shown - and textFieldDidEndEditing method will not be triggered
     }
     
-    func didUpdateWeather(weather: WeatherModel) {
+    func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         print(weather.temperature)
+    }
+    
+    func didFailWithError(error: Error) {
+        print(error)    // depending on the type of the error u may want to show dialog for the user. But in our case, networking error it might not make sense for the user but benefical during development and testing
     }
 }
 

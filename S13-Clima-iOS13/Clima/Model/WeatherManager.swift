@@ -9,7 +9,8 @@
 import Foundation
 
 protocol WeatherManagerDelegate {
-    func didUpdateWeather(weather: WeatherModel)
+    func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel)
+    func didFailWithError(error: Error)
 }
 
 struct WeatherManager {
@@ -20,10 +21,10 @@ struct WeatherManager {
     
     func fetchWeather(cityName: String) {
         let urlString = "\(weatherUrl)&q=\(cityName)"
-        performRequest(urlString: urlString)
+        performRequest(with: urlString)
     }
     
-    func performRequest(urlString: String) {
+    func performRequest(with urlString: String) {
         // check definition for each class-fct to understand more
         // 1- create a URL
         if let url = URL(string: urlString) {    // check definiton for URL(string:) initializer. it is of type optional URL?. which means it will retun nil if string isempty or not formatted correctly. use if let to safely unwrap it
@@ -33,16 +34,16 @@ struct WeatherManager {
             
             // 3- give URLSession a task
             let task = session.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error!)
+                if error != nil {   // exp: lost connection to internet
+                    delegate?.didFailWithError(error: error)
                     return  // exist the fct
                 }
                 
                 if let safeData = data {
                     // .utf8 was used for string encoding(transform data into string)
                     // but we want to convert data to swift object -> JSON encoding
-                    if let weather = parseJson(weatherData: safeData) {
-                        delegate?.didUpdateWeather(weather: weather)
+                    if let weather = parseJson(safeData) {
+                        delegate?.didUpdateWeather(self, weather: weather)
                     }
                 }
             }
@@ -52,7 +53,7 @@ struct WeatherManager {
         }
     }
     
-    func parseJson(weatherData: Data) -> WeatherModel? {
+    func parseJson(_ weatherData: Data) -> WeatherModel? {
         // we should inform our compiler how our data is structured - we can do that through a structure we create (exp: WeatherData.swift)
         let decoder = JSONDecoder()
         do {
@@ -65,7 +66,7 @@ struct WeatherManager {
             
             return weather
         } catch {
-            print(error)
+            delegate?.didFailWithError(error: error)
             return nil
         }
     }
