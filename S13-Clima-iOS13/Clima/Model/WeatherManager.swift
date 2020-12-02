@@ -35,7 +35,7 @@ struct WeatherManager {
             // 3- give URLSession a task
             let task = session.dataTask(with: url) { (data, response, error) in
                 if error != nil {   // exp: lost connection to internet
-                    delegate?.didFailWithError(error: error)
+                    delegate?.didFailWithError(error: error!)
                     return  // exist the fct
                 }
                 
