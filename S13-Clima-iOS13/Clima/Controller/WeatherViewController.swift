@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
+class WeatherViewController: UIViewController {
 
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -23,7 +23,11 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         weatherManager.delegate = self
         searchTextField.delegate = self
     }
+}
 
+// MARK: - UiTextFieldDelegate
+
+extension WeatherViewController: UITextFieldDelegate {  // this extension adopt the UiTextFieldDelegate
     @IBAction func searchPressed(_ sender: UIButton) {
         searchTextField.endEditing(true)    // dismiss-hide the keyboard
                     // multipletextFields? -> call .endEditing for each one
@@ -69,7 +73,11 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         
         return false; // don't allow the user to stop editing - keep the keyboard shown - and textFieldDidEndEditing method will not be triggered
     }
-    
+}
+
+// MARK: - WeatherManagerDelegate
+
+extension WeatherViewController: WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         print(weather.temperature)
         DispatchQueue.main.async {
@@ -82,4 +90,3 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         print(error)    // depending on the type of the error u may want to show dialog for the user. But in our case, networking error it might not make sense for the user but benefical during development and testing
     }
 }
-
