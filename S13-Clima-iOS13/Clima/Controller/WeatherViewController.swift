@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, UITextFieldDelegate {
+class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
 
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -20,7 +20,7 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        weatherManager.delegate = self
         searchTextField.delegate = self
     }
 
@@ -68,6 +68,10 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
         }
         
         return false; // don't allow the user to stop editing - keep the keyboard shown - and textFieldDidEndEditing method will not be triggered
+    }
+    
+    func didUpdateWeather(weather: WeatherModel) {
+        print(weather.temperature)
     }
 }
 

@@ -8,9 +8,15 @@
 
 import Foundation
 
+protocol WeatherManagerDelegate {
+    func didUpdateWeather(weather: WeatherModel)
+}
+
 struct WeatherManager {
     let weatherUrl = "https://api.openweathermap.org/data/2.5/weather?appid=d5c03d141d4f0a58319e814f272f8144&units=metric"
     // apple will detect if we are using http(insecure) instead of https and throws an error - see GoodNotes
+    
+    var delegate: WeatherViewController?
     
     func fetchWeather(cityName: String) {
         let urlString = "\(weatherUrl)&q=\(cityName)"
@@ -35,7 +41,9 @@ struct WeatherManager {
                 if let safeData = data {
                     // .utf8 was used for string encoding(transform data into string)
                     // but we want to convert data to swift object -> JSON encoding
-                    parseJson(weatherData: safeData)
+                    if let weather = parseJson(weatherData: safeData) {
+                        delegate?.didUpdateWeather(weather: weather)
+                    }
                 }
             }
             
@@ -44,7 +52,7 @@ struct WeatherManager {
         }
     }
     
-    func parseJson(weatherData: Data) {
+    func parseJson(weatherData: Data) -> WeatherModel? {
         // we should inform our compiler how our data is structured - we can do that through a structure we create (exp: WeatherData.swift)
         let decoder = JSONDecoder()
         do {
@@ -55,10 +63,10 @@ struct WeatherManager {
             
             let weather = WeatherModel(conditionId: id, cityName: name, temperature: temp)
             
-            // decodedData is of type WeatherData
-            print(weather.temperatureString)
+            return weather
         } catch {
             print(error)
+            return nil
         }
     }
 }
