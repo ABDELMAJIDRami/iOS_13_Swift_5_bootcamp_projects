@@ -21,7 +21,7 @@ class RegisterViewController: UIViewController {
                     print(e)    // show pop-up to the user
                     print(e.localizedDescription)   // show the translated version to the specified on. to arabic as exp. She didn't explain in the video how to set a Localized language
                 } else {    // if no error -> i successfully registered my user
-                    self.performSegue(withIdentifier: "RegisterToChat", sender: self)
+                    self.performSegue(withIdentifier: K.registerSegue, sender: self)
                 }
             }
         }
