@@ -21,11 +21,7 @@ class ChatViewController: UIViewController {
        We need To use Delegate (View extensions)
      */
     
-    var messages: [Message] = [
-        Message(sender: "a@2.com", body: "Hey!"),
-        Message(sender: "b@2.com", body: "Hello!"),
-        Message(sender: "c@2.com", body: "What's up?"),
-    ]
+    var messages: [Message] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +32,32 @@ class ChatViewController: UIViewController {
         
         tableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
         
+        loadMessages()
+    }
+    
+    func loadMessages() {
+        messages = []   // clear messages dict
+        
+        db.collection(K.FStore.collectionName).getDocuments { (querySnapshot, error) in
+            if let e = error {
+                print("There was an error retreiving data from Firestore. \(e)")
+            } else {
+                if let snapshotDocuments = querySnapshot?.documents {
+                    for doc in snapshotDocuments {
+                        let data = doc.data()
+                        if let messageSender = data[K.FStore.senderField] as? String, let messageBody = data[K.FStore.bodyField] as? String {
+                            let newMessage = Message(sender: messageSender, body: messageBody)
+                            self.messages.append(newMessage)
+                            
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }
+                }
+                // self.tableView.reloadData()  // cz fetching docs form firebase is async -> TableView is loaded before with empty data -> we need to retriger it to reload and call UITableViewDataSource delegate methods
+            }
+        }
     }
     
     @IBAction func sendPressed(_ sender: UIButton) {
