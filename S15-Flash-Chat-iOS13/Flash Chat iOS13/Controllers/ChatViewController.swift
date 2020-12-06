@@ -8,11 +8,14 @@
 
 import UIKit
 import FirebaseAuth
+import Firebase
 
 class ChatViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!  // connected to our storyboard
     @IBOutlet weak var messageTextfield: UITextField!
+    
+    let db = Firestore.firestore()  // reference to firestore db    // will return the same reference/instance of the db initialised inside AppDelegate.swift
     
     /* The way we populate data in TableView is different from what we used to data with label where we access a label property and assign it.
        We need To use Delegate (View extensions)
@@ -36,6 +39,18 @@ class ChatViewController: UIViewController {
     }
     
     @IBAction func sendPressed(_ sender: UIButton) {
+        if let messageBody = messageTextfield.text, let messageSender = Auth.auth().currentUser?.email {
+            db.collection(K.FStore.collectionName).addDocument(data: [
+                K.FStore.senderField: messageSender,
+                K.FStore.bodyField: messageBody
+            ]) { (error) in
+                if let e = error {
+                    print("There was an issue saving data to firestore, \(e)")
+                } else {
+                    print("Successfully saved data.")
+                }
+            }
+        }
     }
     
     @IBAction func logOutPressed(_ sender: UIBarButtonItem) {
