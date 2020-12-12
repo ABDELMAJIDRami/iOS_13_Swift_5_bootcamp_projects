@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct ContentView: View {
     
@@ -13,14 +14,12 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {    // navigation stack - header
-//            List {
-//                Text("Hello, world!")
-//                Text("Hello, world!")
-//            }
             List(networkManager.posts) { post in
-                HStack {
-                    Text(String(post.points)) // we can do string interpolation also
-                    Text(post.title)
+                NavigationLink(destination: DetailView(url: post.url)) {    // trailing closure
+                    HStack {
+                        Text(String(post.points)) // we can do string interpolation also
+                        Text(post.title)
+                    }
                 }
             }
             // currently we can't change navigation bar background color
@@ -38,6 +37,8 @@ struct ContentView: View {
 //    Post(id: "2", title: "Bonjour"),
 //    Post(id: "3", title: "Hola")
 //]
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
