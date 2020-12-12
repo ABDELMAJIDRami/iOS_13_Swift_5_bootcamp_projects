@@ -22,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D5AB03A2584B23B001338C6 /* Clima.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clima.entitlements; sourceTree = "<group>"; };
 		2D6CFA452572B52700FEEE6E /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		2DAE3CFB257166610058FFA8 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		2DF8C9E92577967600A535F4 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
@@ -79,6 +80,7 @@
 		ADAA27AF231BBFAF00365194 /* Clima */ = {
 			isa = PBXGroup;
 			children = (
+				2D5AB03A2584B23B001338C6 /* Clima.entitlements */,
 				2D6CFA442572B4EE00FEEE6E /* Model */,
 				ADAA27B0231BBFAF00365194 /* AppDelegate.swift */,
 				ADAA27B2231BBFAF00365194 /* SceneDelegate.swift */,
@@ -332,14 +334,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Clima/Clima.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RY94A34KXM;
 				INFOPLIST_FILE = Clima/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.appbrewery.Clima;
+				PRODUCT_BUNDLE_IDENTIFIER = co.macincloud.clima;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -349,14 +355,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Clima/Clima.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RY94A34KXM;
 				INFOPLIST_FILE = Clima/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.appbrewery.Clima;
+				PRODUCT_BUNDLE_IDENTIFIER = co.macincloud.clima;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
