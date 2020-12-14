@@ -10,7 +10,7 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
 
-    let itemArray = ["Rami", "Abdel Majid", "Houssam"]
+    var itemArray = ["Rami", "Abdel Majid", "Houssam"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,4 +43,31 @@ class TodoListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)    // so when i click on the cell -> marked in grey -> then deselect it -> grey highlight disappears
     }
 
+    // MARK: - Add New Items
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        // var textField: UITextField will throw error inside the closure
+        var textField = UITextField()
+        
+        // our alert popup
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        
+        // the button in the alert
+        // let action = UIAlertAction(title: "Add Item", style: .default, handler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>)
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            // what will happen once the user clicks the Add Item button on our UIAlert
+            self.itemArray.append(textField.text!)
+            
+            self.tableView.reloadData() // reload rows and sections of the table view
+        }
+        
+        alert.addTextField { (alertTextField) in   // alertTextField: reference to the created TextField
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField  // so we can reference it outsid this closure
+        }
+        
+        alert.addAction(action) // very similar to JAVASCRIPT :)
+        
+        present(alert, animated: true, completion: nil) // docs: present viewController modally (above the current view controller).
+    }
 }
