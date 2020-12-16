@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // will be triggered after/when the app gets load it up and before viewDidLoad() is called inside the initial ViewController
         print("didFinishLaunchingWithOptions")
     
-        print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)
+        // print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)
         // print directory/path where our simulator lives   // .userDomainMask: place to install user's personal items
         
         return true

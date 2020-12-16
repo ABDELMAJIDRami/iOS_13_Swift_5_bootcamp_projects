@@ -8,7 +8,8 @@
 
 import Foundation
 
-struct Item{
+// struct Item: Encodable, Decodable {
+struct Item: Codable {
     var title: String = ""
     var done: Bool = false
 }

@@ -12,20 +12,17 @@ class TodoListViewController: UITableViewController {
 
     var itemArray = [Item]()    // array of Item object
     
-    let defaults = UserDefaults.standard
+    // inspect each element to see its definition/purpose
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") //inspect .urls -> it returns an array
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        var newItem = Item()
-        newItem.title = "Hello world"
-        itemArray.append(newItem)
+        print(dataFilePath)
         
-        // itemArray = defaults.array(forKey: "TodoListArray") as! [Item]  // force downcast // app will crash if no such key is found
-        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {   // optional downcast
-            itemArray = items
-        }
+        loadItems()
     }
     
     // MARK: - Tableview Datasource Methods
@@ -62,7 +59,7 @@ class TodoListViewController: UITableViewController {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark -------->>> // ref to cell at the specific index (like in JS: getElementById or by ... and set its innerText or innerHtml orany prop)
         }*/
         
-        tableView.reloadData()
+        saveItems()
         
         tableView.deselectRow(at: indexPath, animated: true)    // so when i click on the cell -> marked in grey -> then deselect it -> grey highlight disappears
     }
@@ -83,10 +80,8 @@ class TodoListViewController: UITableViewController {
             var newItem = Item()
             newItem.title = textField.text!
             self.itemArray.append(newItem)
-            
-            self.defaults.setValue(self.itemArray, forKeyPath: "TodoListArray") // saved in .plist file -> everyting u put in there should be a key-value pair; a key to retreive the item
-            
-            self.tableView.reloadData() // reload rows and sections of the table view
+    
+            self.saveItems()
         }
         
         alert.addTextField { (alertTextField) in   // alertTextField: reference to the created TextField
@@ -97,5 +92,32 @@ class TodoListViewController: UITableViewController {
         alert.addAction(action) // very similar to JAVASCRIPT :)
         
         present(alert, animated: true, completion: nil) // docs: present viewController modally (above the current view controller).
+    }
+    
+    // MARK: - Model Manupulation Methods
+    
+    func saveItems() {
+        let encoder = PropertyListEncoder() // an object that encodes instances of data types to a property list: .plist
+        do {
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        } catch {
+            print("Error encoding item array, \(error)")
+        }
+        
+        self.tableView.reloadData() // reload rows and sections of the table view
+    }
+    
+    func loadItems() {
+        if let data = try? Data(contentsOf: dataFilePath!) {    // try? turn the result into optional - return nil if failed
+            let decoder = PropertyListDecoder() // an object that decodes instances of data types from a property list: .plist
+            do {
+                itemArray = try decoder.decode([Item].self, from: data)  // [Item].self: bcz we are not specifying object; in order to reffer to the type of [Item]: array of Item -> we need to add the .self to refer to the type
+            } catch {
+                print("Error decoding item array, \(error)")
+            }
+        }
+        
+        self.tableView.reloadData() // reload rows and sections of the table view
     }
 }
