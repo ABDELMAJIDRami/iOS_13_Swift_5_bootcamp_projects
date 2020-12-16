@@ -22,10 +22,10 @@ class TodoListViewController: UITableViewController {
         newItem.title = "Hello world"
         itemArray.append(newItem)
         
-        // itemArray = defaults.array(forKey: "TodoListArray") as! [String]  // force downcast // app will crash if no such key is found
-//        if let items = defaults.array(forKey: "TodoListArray") as? [String] {   // optional downcast
-//            itemArray = items
-//        }
+        // itemArray = defaults.array(forKey: "TodoListArray") as! [Item]  // force downcast // app will crash if no such key is found
+        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {   // optional downcast
+            itemArray = items
+        }
     }
     
     // MARK: - Tableview Datasource Methods
