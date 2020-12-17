@@ -15,6 +15,8 @@ class TodoListViewController: UITableViewController {
     // inspect each element to see its definition/purpose
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") //inspect .urls -> it returns an array
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +24,7 @@ class TodoListViewController: UITableViewController {
         
         print(dataFilePath!)
         
-        loadItems()
+        // loadItems()
     }
     
     // MARK: - Tableview Datasource Methods
@@ -77,8 +79,9 @@ class TodoListViewController: UITableViewController {
         // let action = UIAlertAction(title: "Add Item", style: .default, handler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>)
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             // what will happen once the user clicks the Add Item button on our UIAlert
-            var newItem = Item()
+            let newItem = Item(context: self.context)
             newItem.title = textField.text!
+            newItem.done = false
             self.itemArray.append(newItem)
     
             self.saveItems()
@@ -97,27 +100,26 @@ class TodoListViewController: UITableViewController {
     // MARK: - Model Manupulation Methods
     
     func saveItems() {
-        let encoder = PropertyListEncoder() // an object that encodes instances of data types to a property list: .plist
         do {
-            let data = try encoder.encode(itemArray)
-            try data.write(to: dataFilePath!)
+            // commit our context to permenant storage inside our persistance container (similarly to what's done inside AppDelegate.appwillterminate
+            try context.save()
         } catch {
-            print("Error encoding item array, \(error)")
+            print("Error saving context, \(error)")
         }
         
         self.tableView.reloadData() // reload rows and sections of the table view
     }
     
-    func loadItems() {
-        if let data = try? Data(contentsOf: dataFilePath!) {    // try? turn the result into optional - return nil if failed
-            let decoder = PropertyListDecoder() // an object that decodes instances of data types from a property list: .plist
-            do {
-                itemArray = try decoder.decode([Item].self, from: data)  // [Item].self: bcz we are not specifying object; in order to reffer to the type of [Item]: array of Item -> we need to add the .self to refer to the type
-            } catch {
-                print("Error decoding item array, \(error)")
-            }
-        }
-        
-        self.tableView.reloadData() // reload rows and sections of the table view
-    }
+//    func loadItems() {
+//        if let data = try? Data(contentsOf: dataFilePath!) {    // try? turn the result into optional - return nil if failed
+//            let decoder = PropertyListDecoder() // an object that decodes instances of data types from a property list: .plist
+//            do {
+//                itemArray = try decoder.decode([Item].self, from: data)  // [Item].self: bcz we are not specifying object; in order to reffer to the type of [Item]: array of Item -> we need to add the .self to refer to the type
+//            } catch {
+//                print("Error decoding item array, \(error)")
+//            }
+//        }
+//
+//        self.tableView.reloadData() // reload rows and sections of the table view
+//    }
 }
