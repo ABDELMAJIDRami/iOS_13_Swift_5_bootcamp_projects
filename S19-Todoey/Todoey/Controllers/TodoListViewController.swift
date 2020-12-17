@@ -13,7 +13,7 @@ class TodoListViewController: UITableViewController {
     var itemArray = [Item]()    // array of Item object
     
     // inspect each element to see its definition/purpose
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") //inspect .urls -> it returns an array
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -22,7 +22,7 @@ class TodoListViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        print(dataFilePath!)
+        print(dataFilePath)
         
         // loadItems()
     }
