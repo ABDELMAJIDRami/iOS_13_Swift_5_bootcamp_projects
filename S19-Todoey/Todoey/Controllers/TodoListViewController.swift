@@ -54,6 +54,12 @@ class TodoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(itemArray[indexPath.row])
         
+        // Remove Data
+        // the order is very imortant cz if we removed it first from itemArray -> Item no longer exists -> indexPath will refer to another Item(CoreData will delete another Item!!) or an indexPath outside the range(Fatal Error)
+        // context.delete(itemArray[indexPath.row])    // eloquent :), we refered the object to be deleted
+        // itemArray.remove(at: indexPath.row)
+        // saveItems() // otherwise, context.delete won't take affect!
+        
         // 1- First way for updating Data with CoreData
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
