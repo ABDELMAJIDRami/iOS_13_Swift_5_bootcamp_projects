@@ -54,7 +54,11 @@ class TodoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(itemArray[indexPath.row])
         
+        // 1- First way for updating Data with CoreData
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        
+        // 2- second way for updating Data
+        // itemArray[indexPath.row].setValue(!itemArray[indexPath.row].done, forKey: "done")
         
         /* if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
