@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class TodoListViewController: UITableViewController {
 
@@ -24,7 +25,7 @@ class TodoListViewController: UITableViewController {
         
         print(dataFilePath)
         
-        // loadItems()
+         loadItems()    // this seams to happen sync cz angela removed tableView.reloadData(). Heye mn abl sheylta bas ana ma knt mntebeh
     }
     
     // MARK: - Tableview Datasource Methods
@@ -110,16 +111,14 @@ class TodoListViewController: UITableViewController {
         self.tableView.reloadData() // reload rows and sections of the table view
     }
     
-//    func loadItems() {
-//        if let data = try? Data(contentsOf: dataFilePath!) {    // try? turn the result into optional - return nil if failed
-//            let decoder = PropertyListDecoder() // an object that decodes instances of data types from a property list: .plist
-//            do {
-//                itemArray = try decoder.decode([Item].self, from: data)  // [Item].self: bcz we are not specifying object; in order to reffer to the type of [Item]: array of Item -> we need to add the .self to refer to the type
-//            } catch {
-//                print("Error decoding item array, \(error)")
-//            }
-//        }
-//
-//        self.tableView.reloadData() // reload rows and sections of the table view
-//    }
+    func loadItems() {
+        // NSFetchRequest is a generic class that is going to fetch results in the form of Item
+        // Xcode is smart to know what is the datatype based on the value but in this case we should identify its type. I belive bcz its generic(the first line).
+        let request: NSFetchRequest<Item> = Item.fetchRequest() // fetch all data
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Error fetching fata from context, \(error)")
+        }
+    }
 }
