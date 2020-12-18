@@ -13,6 +13,13 @@ class TodoListViewController: UITableViewController {
 
     var itemArray = [Item]()    // array of Item object
     
+    var selectedCategory: Category? {
+        didSet {
+            // everything inside these {} will be triggered as soon as the selectedCategory is assigned with a value.
+            loadItems() // And this is the perfect place to call loadItems() cz we are now certain that we've already got a value for selectedcategory -> so we aren't calling it before which might crash our app
+        }
+    }
+    
     // inspect each element to see its definition/purpose
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     
@@ -93,6 +100,7 @@ class TodoListViewController: UITableViewController {
             let newItem = Item(context: self.context)
             newItem.title = textField.text!
             newItem.done = false
+            newItem.parentCategory = self.selectedCategory  // relationship
             self.itemArray.append(newItem)
     
             self.saveItems()
@@ -121,10 +129,21 @@ class TodoListViewController: UITableViewController {
         self.tableView.reloadData() // reload rows and sections of the table view
     }
     
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {  // provide a default value: fetch all data
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predict: NSPredicate? = nil) {  // default value
         // NSFetchRequest is a generic class that is going to fetch results in the form of Item
         // Xcode is smart to know what is the datatype based on the value but in this case we should identify its type. I belive bcz its generic(the first line).
 
+        let categoryPredict = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        /* If we do request.predict = predict ;; the assigned predict defined inside searchBarSearchButtonClicked ""request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)"" will be overritten!
+         ---> solution is to combine predicates using NSCompoundPredicate initialized using sub-predicates
+         */
+        
+        if let additionalPredicat = predict {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredict, additionalPredicat])
+        } else {
+            request.predicate = categoryPredict
+        }
+                
         do {
             itemArray = try context.fetch(request)
         } catch {
@@ -144,7 +163,7 @@ extension TodoListViewController: UISearchBarDelegate {
         // To query data in CoreData we need to use NSPredicate
         // NSPredicate is a fondation class (represents a logical conditions) that specify how data should be fetched or filtered
         // A query language
-        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)   // %@ will be replaced by args we passed: searchBar.text!   // [cd]: see pdf
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)   // %@ will be replaced by args we passed: searchBar.text!   // [cd]: see pdf
         // request.predicate = predicate   // add query format to our request
         
         // sort data
@@ -153,7 +172,7 @@ extension TodoListViewController: UISearchBarDelegate {
         // request.sortDescriptors = [sortDescriptor]
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         
-        loadItems(with: request)
+        loadItems(with: request, predict: predicate)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {    // retrurn all items
