@@ -155,4 +155,14 @@ extension TodoListViewController: UISearchBarDelegate {
         
         loadItems(with: request)
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {    // retrurn all items
+        if searchBar.text?.count == 0 {
+            loadItems()
+            
+            DispatchQueue.main.async {  // resigning should happen on the main thread for it to work (see GoodNotes)
+                searchBar.resignFirstResponder()    // Notifies this object that it has been saked to relinquish its status as first responder in its window ---> should not be the thing that is currently selected -> hide the cursor & hide the keyboard
+            }
+        }
+    }
 }
