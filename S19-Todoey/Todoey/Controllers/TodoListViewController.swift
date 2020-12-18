@@ -121,14 +121,38 @@ class TodoListViewController: UITableViewController {
         self.tableView.reloadData() // reload rows and sections of the table view
     }
     
-    func loadItems() {
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {  // provide a default value: fetch all data
         // NSFetchRequest is a generic class that is going to fetch results in the form of Item
         // Xcode is smart to know what is the datatype based on the value but in this case we should identify its type. I belive bcz its generic(the first line).
-        let request: NSFetchRequest<Item> = Item.fetchRequest() // fetch all data
+
         do {
             itemArray = try context.fetch(request)
         } catch {
             print("Error fetching fata from context, \(error)")
         }
+        
+        tableView.reloadData()
+    }
+}
+
+// MARK: - Searchbar methods
+
+extension TodoListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        // To query data in CoreData we need to use NSPredicate
+        // NSPredicate is a fondation class (represents a logical conditions) that specify how data should be fetched or filtered
+        // A query language
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)   // %@ will be replaced by args we passed: searchBar.text!   // [cd]: see pdf
+        // request.predicate = predicate   // add query format to our request
+        
+        // sort data
+        // let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        // request.sortDescriptors accepts an array of [NSSortDescriptor]
+        // request.sortDescriptors = [sortDescriptor]
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        loadItems(with: request)
     }
 }
