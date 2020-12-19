@@ -87,6 +87,7 @@ class TodoListViewController: UITableViewController {
                     try self.realm.write{
                         let newItem = Item()
                         newItem.title = textField.text!
+                        newItem.dateCreated = Date()
                         currentCategory.items.append(newItem)   // will be added to Item table with relationship to its parent category
                     }
                 } catch {
@@ -118,32 +119,22 @@ class TodoListViewController: UITableViewController {
 
 // MARK: - Searchbar methods
 
-//extension TodoListViewController: UISearchBarDelegate {
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        let request: NSFetchRequest<Item> = Item.fetchRequest()
-//
-//        // To query data in CoreData we need to use NSPredicate
-//        // NSPredicate is a fondation class (represents a logical conditions) that specify how data should be fetched or filtered
-//        // A query language
-//        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)   // %@ will be replaced by args we passed: searchBar.text!   // [cd]: see pdf
-//        // request.predicate = predicate   // add query format to our request
-//
-//        // sort data
-//        // let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-//        // request.sortDescriptors accepts an array of [NSSortDescriptor]
-//        // request.sortDescriptors = [sortDescriptor]
-//        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-//
-////        loadItems(with: request, predict: predicate)
-//    }
-//
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {    // retrurn all items
-//        if searchBar.text?.count == 0 {
-////            loadItems()
-//
-//            DispatchQueue.main.async {  // resigning should happen on the main thread for it to work (see GoodNotes)
-//                searchBar.resignFirstResponder()    // Notifies this object that it has been saked to relinquish its status as first responder in its window ---> should not be the thing that is currently selected -> hide the cursor & hide the keyboard
-//            }
-//        }
-//    }
-//}
+extension TodoListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        // todoItems = todoItems?.filter(<#T##predicateFormat: String##String#>, <#T##args: Any...##Any#>)  // both CoreData and Realm use NSPredicate
+        todoItems = todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
+        
+        tableView.reloadData()
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {    // retrurn all items
+        if searchBar.text?.count == 0 {
+            loadItems()
+
+            DispatchQueue.main.async {  // resigning should happen on the main thread for it to work (see GoodNotes)
+                searchBar.resignFirstResponder()    // Notifies this object that it has been saked to relinquish its status as first responder in its window ---> should not be the thing that is currently selected -> hide the cursor & hide the keyboard
+            }
+        }
+    }
+}
