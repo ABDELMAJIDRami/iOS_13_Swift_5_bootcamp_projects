@@ -21,17 +21,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Locate our Realm configuration/database
         print(Realm.Configuration.defaultConfiguration.fileURL)
                 
-        let data = Data()
-        data.name = "Rami"
-        data.age = 25
+        // let data = Data()
+        // data.name = "Rami"
+        // data.age = 25
         
         // So let's go ahead and add our new item, i.e., create in CRUD, and we're going to commit the current state of our Realm. So just as we did with Core Data, we basically created a new piece of data, then we used the context to commit the current state to our persistent container, or in this case, it's our Realm database
         
-        do {
+        do {// we kept the following line for initilisation but i beleive we can delete it also cz we are initializing it inside CategoryViewController
             let realm = try Realm() // A Realm instance (also referred to as “a Realm”) represents a Realm database. like persistance container
-            try realm.write { //If the block throws an error, the transaction will be canceled and any changes made before the error will be rolled back.
-                realm.add(data)
-            }
+            // try realm.write { //If the block throws an error, the transaction will be canceled and any changes made before the error will be rolled back.
+                // realm.add(data)
+            // }
         } catch {
             print("Erorr initialising new realm, \(error)")
         }
