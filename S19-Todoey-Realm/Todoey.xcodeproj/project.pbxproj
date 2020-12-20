@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D06698B258F522B00B1ACD4 /* SwipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D06698A258F522B00B1ACD4 /* SwipeTableViewController.swift */; };
 		2D53CA79258DE07B002EA66D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D53CA78258DE07B002EA66D /* Data.swift */; };
 		2D53CA7C258DF0F2002EA66D /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D53CA7B258DF0F2002EA66D /* Item.swift */; };
 		2D53CA7F258DF0FD002EA66D /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D53CA7E258DF0FD002EA66D /* Category.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D06698A258F522B00B1ACD4 /* SwipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeTableViewController.swift; sourceTree = "<group>"; };
 		2D53CA78258DE07B002EA66D /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		2D53CA7B258DF0F2002EA66D /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		2D53CA7E258DF0FD002EA66D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 			children = (
 				2D74CE03258CD397009236E6 /* CategoryViewController.swift */,
 				EB2BE4FD239524DB00FB933B /* TodoListViewController.swift */,
+				2D06698A258F522B00B1ACD4 /* SwipeTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				2D74CE04258CD397009236E6 /* CategoryViewController.swift in Sources */,
 				2D53CA79258DE07B002EA66D /* Data.swift in Sources */,
 				EB2BE4FE239524DB00FB933B /* TodoListViewController.swift in Sources */,
+				2D06698B258F522B00B1ACD4 /* SwipeTableViewController.swift in Sources */,
 				2D53CA7C258DF0F2002EA66D /* Item.swift in Sources */,
 				EB2BE4FA239524DB00FB933B /* AppDelegate.swift in Sources */,
 				2D53CA7F258DF0FD002EA66D /* Category.swift in Sources */,
