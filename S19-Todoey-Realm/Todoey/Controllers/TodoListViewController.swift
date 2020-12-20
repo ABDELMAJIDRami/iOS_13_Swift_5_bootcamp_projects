@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import  ChameleonFramework
 
 class TodoListViewController: SwipeTableViewController {
 
@@ -37,6 +38,13 @@ class TodoListViewController: SwipeTableViewController {
         
         if let item = todoItems?[indexPath.row] {
             cell.textLabel?.text = item.title
+            
+            if let backgroundColor = UIColor(hexString: selectedCategory!.colour!)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(todoItems!.count)) {
+                cell.backgroundColor = backgroundColor
+                cell.textLabel?.textColor = ContrastColorOf(backgroundColor, returnFlat: true)  // return a dark or light colour based on the background colour. Check docs for Contrasting Colours.
+            }
+            
+            
             cell.accessoryType = item.done ? .checkmark : .none
         } else {
             cell.textLabel?.text = "No Items Added"
@@ -110,7 +118,7 @@ class TodoListViewController: SwipeTableViewController {
         
     func loadItems() {
 
-        todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true) // simialar to eloquent where we call relationshiproperty and then chain the query we want
+        todoItems = selectedCategory?.items.sorted(byKeyPath: "dateCreated", ascending: true) // simialar to eloquent where we call relationshiproperty and then chain the query we want
         
         tableView.reloadData()
     }
