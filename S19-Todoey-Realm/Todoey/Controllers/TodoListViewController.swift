@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController: SwipeTableViewController {
 
     var todoItems: Results<Item>?    // array of Item object
     let realm = try! Realm()
@@ -33,8 +33,7 @@ class TodoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // let cell = UITableViewCell(style: .default, reuseIdentifier: "ToDoItemCell")
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         if let item = todoItems?[indexPath.row] {
             cell.textLabel?.text = item.title
@@ -115,7 +114,25 @@ class TodoListViewController: UITableViewController {
         
         tableView.reloadData()
     }
+    
+    // MARK: - Delete Data from Swipe
+
+    override func updateModel(at indexPath: IndexPath) {
+        // in this case, no need to class super-class method
+        if let itemForDeletion = todoItems?[indexPath.row] {
+            do {
+                try self.realm.write{
+                    self.realm.delete(itemForDeletion)
+                }
+            } catch {
+                print("Error deleting item, \(error)")
+            }
+            
+            // tableView.reloadData()   // will throw an update nb of row error when implemented with options.expansionStyle = .destructive which will itself remove the cell from the table/UI
+        }
+    }
 }
+
 
 // MARK: - Searchbar methods
 
