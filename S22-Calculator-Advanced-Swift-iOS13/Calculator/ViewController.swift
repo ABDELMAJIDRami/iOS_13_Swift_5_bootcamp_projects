@@ -22,6 +22,16 @@ class ViewController: UIViewController {
         guard let number = Double(displayLabel.text!) else {
             fatalError("Cannot convert display label text to a Double.")
         }
+        
+        if let calcMehtod = sender.currentTitle {
+            if calcMehtod == "+/-" {
+                displayLabel.text = String(number * -1)
+            } else if calcMehtod == "AC" {
+                displayLabel.text = "0"
+            } else if calcMehtod == "%" {
+                displayLabel.text = String(number / 100)    // or number * 0.01
+            }
+        }
     }
     
     @IBAction func numButtonPressed(_ sender: UIButton) {
@@ -32,6 +42,20 @@ class ViewController: UIViewController {
                 displayLabel.text = numValue
                 isFinishedTypingNumber = false
             } else {
+                
+                if numValue == "." {
+                    /* These checks implemented by Angela doesn't cover all the case. exp: add 2. then try adding . => will fail. Failing is good cz we know that there is something wrong and we know where. */
+                    guard let currentDisplayValue = Double(displayLabel.text!) else {
+                        fatalError("Cannot convert display label text to a Double!")
+                    }
+                    let isInt = floor(currentDisplayValue) == currentDisplayValue
+                    // exp: if currentDisplayValue = 8.1 -> floor will give 8. 8.1 != 8 => so we have a decimal value that have a dot inside
+                    // in this case we should prevent adding dots
+                    if !isInt {
+                        return  // stop func execution
+                    }
+                }
+                
                 displayLabel.text = displayLabel.text! + numValue
             }
         }
