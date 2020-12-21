@@ -15,6 +15,8 @@ class TodoListViewController: SwipeTableViewController {
     var todoItems: Results<Item>?    // array of Item object
     let realm = try! Realm()
     
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     var selectedCategory: Category? {
         didSet {
             // everything inside these {} will be triggered as soon as the selectedCategory is assigned with a value.
@@ -25,7 +27,31 @@ class TodoListViewController: SwipeTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
          loadItems()
+        tableView.separatorStyle = .none
     }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let colourHex = selectedCategory?.colour {
+            
+            title = selectedCategory?.name
+            
+            guard let navBar = navigationController?.navigationBar else {
+                fatalError("Navigation Controller does not exist!")
+            }
+            
+            if let navBarColour = UIColor(hexString: colourHex) {
+                navBar.backgroundColor = navBarColour // for versions before iOS13, use barTintColor instead of backgroundColor
+                
+                searchBar.barTintColor = navBarColour
+                searchBar.tintColor = ContrastColorOf(navBarColour, returnFlat: true)
+                searchBar.searchTextField.backgroundColor = .white
+                navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ContrastColorOf(navBarColour, returnFlat: true)]
+
+            }
+        }
+    }
+    
     
     // MARK: - Tableview Datasource Methods
     
