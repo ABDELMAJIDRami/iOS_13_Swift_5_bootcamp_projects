@@ -45,7 +45,7 @@ class TodoListViewController: SwipeTableViewController {
                 
                 searchBar.barTintColor = navBarColour
                 searchBar.tintColor = ContrastColorOf(navBarColour, returnFlat: true)
-                searchBar.searchTextField.backgroundColor = .white
+//                searchBar.searchTextField.backgroundColor = .white
                 navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ContrastColorOf(navBarColour, returnFlat: true)]
 
             }
@@ -65,7 +65,7 @@ class TodoListViewController: SwipeTableViewController {
         if let item = todoItems?[indexPath.row] {
             cell.textLabel?.text = item.title
             
-            if let backgroundColor = UIColor(hexString: selectedCategory!.colour!)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(todoItems!.count)) {
+            if let backgroundColor = UIColor(hexString: selectedCategory!.colour!)?.darken(byPercentage: CGFloat(indexPath.row) / (2.5 * CGFloat(todoItems!.count))) {
                 cell.backgroundColor = backgroundColor
                 cell.textLabel?.textColor = ContrastColorOf(backgroundColor, returnFlat: true)  // return a dark or light colour based on the background colour. Check docs for Contrasting Colours.
             }
