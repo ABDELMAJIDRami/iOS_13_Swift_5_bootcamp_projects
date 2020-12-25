@@ -34,9 +34,8 @@ class ViewController: UIViewController {
         calculator.setNumber(displayValue)
         if let calcMehtod = sender.currentTitle {
            
-            if let result = calculator.calculate(symbol: calcMehtod) {
+            guard let result = calculator.calculate(symbol: calcMehtod) else {fatalError("The result of the calculation is nil")}
             displayValue = result
-            }
         }
     }
     
