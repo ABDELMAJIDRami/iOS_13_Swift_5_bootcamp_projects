@@ -28,9 +28,43 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         //                      picker is our imagePicker object
         if let userPickedImage = info[.originalImage] as? UIImage {   // The original, uncropped image selected by the user. see goodnotes photo
             imageView.image = userPickedImage   // userPickedImage can be nil if the user canceled without taking any photo
+            
+            guard let ciimage = CIImage(image: userPickedImage) else { //  convert this UIImage into a CIImage which stands for Core Image image and that's a special type of image that allow us to use the Vision framework and the CoreML framework in order to get an interpretation from it.
+                fatalError("Could not convert UIImage to CIImage.")
+            }
+            
+            detecet(image: ciimage)
+            
         }
         imagePicker.dismiss(animated: true, completion: nil)    // Dismisses the view controller that was presented modally by the view controller.
     }
+    
+    // method that will process CIImage and get interpretation or classification out of it.
+    func detecet(image: CIImage) {
+        guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {// A container for a Core ML model used with Vision requests. VNCoreMLModel comes from the vision framework. It allows us to perform an image analysis requests that uses our CoreMLModel to process images.
+            fatalError("Loading CoreML Model Failed.")
+        }
+        
+        // let request = VNCoreMLRequest(model: model, completionHandler: <#T##VNRequestCompletionHandler?##VNRequestCompletionHandler?##(VNRequest, Error?) -> Void#>) // click to transform to trailing closure.
+        let request = VNCoreMLRequest(model: model) { (request, error) in
+            guard let results = request.results as? [VNClassificationObservation] else {
+                fatalError("Model failed to process image")
+            }
+            print(results)
+        }
+        
+        //specify the image we want to classify/process by this request
+        let handler = VNImageRequestHandler(ciImage: image)
+        
+        // try! handler.perform([request])   // try! : forceexecute this request witout wrapping it with do catch - will crash the app if it fails
+        do {
+            try handler.perform([request])
+        } catch {
+            print(error)
+        }
+
+    }
+    
 
     @IBAction func cameraTapped(_ sender: UIBarButtonItem) {
         present(imagePicker, animated: true, completion: nil)
