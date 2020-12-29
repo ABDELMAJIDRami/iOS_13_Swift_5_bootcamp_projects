@@ -1,0 +1,6 @@
+framework module Pods_S24_WhatFlower {
+  umbrella header "Pods-S24-WhatFlower-umbrella.h"
+
+  export *
+  module * { export * }
+}
