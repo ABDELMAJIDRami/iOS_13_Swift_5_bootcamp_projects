@@ -10,6 +10,7 @@ import CoreML
 import Vision
 import Alamofire
 import SwiftyJSON
+import SDWebImage
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -34,7 +35,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if let userPickerImage = info[.editedImage] as? UIImage {  // the edited image when we flagged imagePicker.allowsEditing = true
             guard let ciImage = CIImage(image: userPickerImage) else {fatalError("cannot convert image")}
             detect(image: ciImage)
-            imageView.image = userPickerImage
+            // imageView.image = userPickerImage
         }
         
         imagePicker.dismiss(animated: true, completion: nil)
@@ -67,21 +68,24 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let parameters : [String:String] = [
             "format" : "json",
             "action" : "query",
-            "prop" : "extracts",
+            "prop" : "extracts|pageimages",
             "exintro" : "",
             "explaintext" : "",
             "titles" : flowerName,
             "indexpageids" : "",
             "redirects" : "1",
+            "pithumbsize": "500"    // pageimage size: 500 * 500
         ]
         // .responseJSON accpets a closure
         AF.request(wikipediaURl, method: .get, parameters: parameters).responseJSON { (response) in
-            print(response)
+            // print(response)
             print(JSON(try! response.result.get()))
             do {
                 let flowerJson = JSON(try response.result.get())
                 let pageID = flowerJson["query"]["pageids"][0].stringValue
                 let flowerDescription = flowerJson["query"]["pages"][pageID]["extract"].stringValue
+                let flowerImageURL = flowerJson["query"]["pages"][pageID]["thumbnail"]["source"].stringValue
+                self.imageView.sd_setImage(with: URL(string: flowerImageURL))
                 self.wikiLabel.text = flowerDescription
             } catch {
                 print("Failed to get data from wikipedia, \(error)")
