@@ -18,6 +18,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     let imagePicker = UIImagePickerController()
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var wikiLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +77,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // .responseJSON accpets a closure
         AF.request(wikipediaURl, method: .get, parameters: parameters).responseJSON { (response) in
             print(response)
+            print(JSON(try! response.result.get()))
+            do {
+                let flowerJson = JSON(try response.result.get())
+                let pageID = flowerJson["query"]["pageids"][0].stringValue
+                let flowerDescription = flowerJson["query"]["pages"][pageID]["extract"].stringValue
+                self.wikiLabel.text = flowerDescription
+            } catch {
+                print("Failed to get data from wikipedia, \(error)")
+            }
+            
         }
     }
     

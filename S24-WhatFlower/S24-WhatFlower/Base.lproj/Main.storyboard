@@ -18,16 +18,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Q2r-hS-NIS">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="414"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Q2r-hS-NIS" secondAttribute="height" multiplier="1:1" id="Z5S-oE-nTl"/>
+                                </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2LJ-1E-Iec">
+                                <rect key="frame" x="20" y="522" width="374" height="340"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Q2r-hS-NIS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="8Oy-lH-hKk"/>
-                            <constraint firstItem="Q2r-hS-NIS" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="a1U-kI-bMu"/>
-                            <constraint firstItem="Q2r-hS-NIS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="doH-ol-Gtk"/>
-                            <constraint firstAttribute="bottom" secondItem="Q2r-hS-NIS" secondAttribute="bottom" id="huo-EJ-gPu"/>
+                            <constraint firstItem="2LJ-1E-Iec" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="17S-On-XjS"/>
+                            <constraint firstItem="2LJ-1E-Iec" firstAttribute="top" secondItem="Q2r-hS-NIS" secondAttribute="bottom" constant="20" id="3kK-0Z-nsp"/>
+                            <constraint firstItem="Q2r-hS-NIS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9Hm-sx-gg4"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2LJ-1E-Iec" secondAttribute="trailing" constant="20" id="CBi-2A-uKf"/>
+                            <constraint firstItem="2LJ-1E-Iec" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="WVv-eU-Oep"/>
+                            <constraint firstItem="Q2r-hS-NIS" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="m3q-lM-oAB"/>
+                            <constraint firstItem="Q2r-hS-NIS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="vmf-KV-z3d"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="TFk-9M-luE">
@@ -39,6 +51,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="Q2r-hS-NIS" id="uFL-SC-8rI"/>
+                        <outlet property="wikiLabel" destination="2LJ-1E-Iec" id="PCK-Ep-qzL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
