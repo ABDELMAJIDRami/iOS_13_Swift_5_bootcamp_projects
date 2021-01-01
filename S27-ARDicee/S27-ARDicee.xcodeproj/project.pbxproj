@@ -16,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D2B212D259F40FE00BBA71F /* S27-ARDicee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "S27-ARDicee.entitlements"; sourceTree = "<group>"; };
 		2DE0D9CE259DE16C003365D6 /* S27-ARDicee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "S27-ARDicee.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DE0D9D1259DE16C003365D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2DE0D9D3259DE16C003365D6 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -56,6 +57,7 @@
 		2DE0D9D0259DE16C003365D6 /* S27-ARDicee */ = {
 			isa = PBXGroup;
 			children = (
+				2D2B212D259F40FE00BBA71F /* S27-ARDicee.entitlements */,
 				2DE0D9D1259DE16C003365D6 /* AppDelegate.swift */,
 				2DE0D9D5259DE16C003365D6 /* ViewController.swift */,
 				2DE0D9D7259DE16C003365D6 /* Main.storyboard */,
@@ -286,16 +288,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "S27-ARDicee/S27-ARDicee.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y7D9AZGRKM;
+				DEVELOPMENT_TEAM = RY94A34KXM;
 				INFOPLIST_FILE = "S27-ARDicee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ramiincloud.S27-ARDicee";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ramincloud.S27-ARDicee";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -306,16 +310,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "S27-ARDicee/S27-ARDicee.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y7D9AZGRKM;
+				DEVELOPMENT_TEAM = RY94A34KXM;
 				INFOPLIST_FILE = "S27-ARDicee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ramiincloud.S27-ARDicee";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ramincloud.S27-ARDicee";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
