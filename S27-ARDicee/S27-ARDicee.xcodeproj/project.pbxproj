@@ -290,14 +290,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "S27-ARDicee/S27-ARDicee.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RY94A34KXM;
+				DEVELOPMENT_TEAM = Y7D9AZGRKM;
 				INFOPLIST_FILE = "S27-ARDicee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ramincloud.S27-ARDicee";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ramiincloud.S27-ARDicee";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
@@ -312,14 +312,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "S27-ARDicee/S27-ARDicee.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RY94A34KXM;
+				DEVELOPMENT_TEAM = Y7D9AZGRKM;
 				INFOPLIST_FILE = "S27-ARDicee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ramincloud.S27-ARDicee";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ramiincloud.S27-ARDicee";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
