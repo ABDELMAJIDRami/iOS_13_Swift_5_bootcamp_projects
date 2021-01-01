@@ -23,19 +23,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.showsStatistics = true
         
         // inspect each variable/object to understand it. All objects are preceded with SCN cz they are imported from ScenceKit.
-        let cube = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
+        // let cube = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
+        let sphere = SCNSphere(radius: 0.2)
         
         let material = SCNMaterial()
         
-        material.diffuse.contents = UIColor.blue    // .contents: Animatable.
+        // material.diffuse.contents = UIColor.blue    // .contents: Animatable.
+        material.diffuse.contents = UIImage(named: "art.scnassets/moon.jpg")
         
-        cube.materials = [material]     // array of materials cz an object can have multiple materials: u can change the diffuse, the shininess, the metallicness, the texture of it...
+        sphere.materials = [material]     // array of materials cz an object can have multiple materials: u can change the diffuse, the shininess, the metallicness, the texture of it...
         
         let node = SCNNode()    // point in 3D space
         
         node.position = SCNVector3(x: 0, y: 0.1, z: -0.5)   // animatable. SeeGoodNotes.
         
-        node.geometry = cube    // assin that node an object/geometry to display
+        node.geometry = sphere    // assin that node an object/geometry to display
         
         sceneView.scene.rootNode.addChildNode(node) // check GoodNotes.
         
