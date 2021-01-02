@@ -76,6 +76,22 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
+    // called when touch is detected in view or Window and convert user touches into real word location(x,y,z) using ARKit.
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first { // check if there endeed were touches and this method wasn't called min error
+            let touchLocation = touch.location(in: sceneView)
+            
+            let results = sceneView.hitTest(touchLocation, types: .existingPlaneUsingExtent)
+            
+            
+            if !results.isEmpty {
+                print("touched the plane")
+            } else {
+                print("touched somewhere else")
+            }
+        }
+    }
+    
     // ARSCNViewDelegate method: And as it says, it tells the delegate, which is this current view controller, that a SceneKit node corresponding to a new AR anchor(exp: a horizontal anchor(surface)) has been added to the scene. It means that it's detected a horizontal surface and it's given that detected surface a width and a height which is an AR anchor so that we'll be able to use it to place things or to visualize it.
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         print("plane detecggggted")
