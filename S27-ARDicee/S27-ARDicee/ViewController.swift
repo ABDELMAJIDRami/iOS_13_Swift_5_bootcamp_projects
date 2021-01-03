@@ -137,6 +137,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         rollAll()
     }
     
+    @IBAction func removeAllDice(_ sender: UIBarButtonItem) {
+        if !diceArray.isEmpty {
+            for dice in diceArray {
+                dice.removeFromParentNode()
+            }
+        }
+    }
+    
     // ARSCNViewDelegate method: And as it says, it tells the delegate, which is this current view controller, that a SceneKit node corresponding to a new AR anchor(exp: a horizontal anchor(surface)) has been added to the scene. It means that it's detected a horizontal surface and it's given that detected surface a width and a height which is an AR anchor so that we'll be able to use it to place things or to visualize it.
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         print("plane detecggggted")

@@ -31,6 +31,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="QiC-VO-OM0">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="FYh-Yl-jYg">
+                            <connections>
+                                <action selector="removeAllDice:" destination="BV1-FR-VrT" id="1PD-Mh-ROt"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="pAE-lZ-bB8">
                             <connections>
                                 <action selector="rollAgain:" destination="BV1-FR-VrT" id="zEG-T8-MX2"/>
