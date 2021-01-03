@@ -27,7 +27,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
+        let configuration = ARImageTrackingConfiguration()  // A configuration you use when you just want to track known images using the device's back camera feed.
+        
+        // specify images you want AR to track (inspect elements to understand)
+        if let imageToTrack = ARReferenceImage.referenceImages(inGroupNamed: "Pokemon Cards", bundle: Bundle.main) {
+            // we did let vinding bcz the app might look for something called "Pokemon Cards" and don't find it in the main bundle
+            configuration.trackingImages = imageToTrack
+            configuration.maximumNumberOfTrackedImages = 1
+            print("Images Successfully Added/Loaded")
+        }
 
         // Run the view's session
         sceneView.session.run(configuration)
