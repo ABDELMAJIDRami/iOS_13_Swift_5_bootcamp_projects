@@ -14,6 +14,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     
     var dotNodes = [SCNNode]()
+    var textNode = SCNNode()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // we supposed that our app only display 2 points + distance at a time and a 3rd tap by the user will clear previous data(nodes + displayed text)
+        
+        if dotNodes.count >= 2 {
+            for dot in dotNodes {
+                dot.removeFromParentNode()
+            }
+            dotNodes = [SCNNode]()
+        }
+        
         if let touchLocation = touches.first?.location(in: sceneView) {
             let hitTestResults = sceneView.hitTest(touchLocation, types: .featurePoint)  /// perform a hitTest and see if it corresponds to a feature point. So as Xcode explains, the .featurePoint ResultType is a point automatically identified by ARKit as a part of a continuous surface, but without a corresponding anchor. So we're not interested here in detecting planes or going into the planeAnchors or 3D anchors, we're actually just interested in using the code inside ARKit to detect continuous surfaces. And this will give us the 3D location of a continuous surface I'm tapping on if it exists. (i think even if it is nota continuous surface we can still grab a featurePoint/3d point and do the measure).
             // hitTestResults is a locations in 3d space / inspect .hitTest
@@ -95,11 +105,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func updateText(text: String, atPosition position: SCNVector3) {
+        textNode.removeFromParentNode() // remove the previous displayed one
+        
         let textGeometry = SCNText(string: text, extrusionDepth: 1.0)   // extrusionDepth test the value until it is suitable to you
         
         textGeometry.firstMaterial?.diffuse.contents = UIColor.red  // we can assign materials as we did previously
         
-        let textNode = SCNNode(geometry: textGeometry)
+        textNode = SCNNode(geometry: textGeometry)
         
         textNode.position = SCNVector3(x: position.x, y: position.y + 0.01, z: position.z)  // above the end node
         
