@@ -10,6 +10,8 @@ import SceneKit
 import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
+    
+    var diceArray = [SCNNode]() // empty array of SCNNode objects
 
     @IBOutlet var sceneView: ARSCNView!
     
@@ -94,23 +96,45 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                                                    z: hitResult.worldTransform.columns.3.z
                     )
                     sceneView.scene.rootNode.addChildNode(diceNode)
-                    
-                    // calculate rotation; exp: 1 rotation = 1 * 90degree, 2 dice rotation = 2 * 90degree -> convert it to radian
-                    // we didn't rotate around Y axis cz it is a vertical axis; like torsion, the upper face won't change
-                    let randomX = Float(arc4random_uniform(4) + 1) * (Float.pi / 2) // at max it will be equal to 4*90=1 full 360 rotation
-                    let randomZ = Float(arc4random_uniform(4) + 1) * (Float.pi / 2)
-                    
-                    // animate
-                    diceNode.runAction(
-                        SCNAction.rotateBy(x: CGFloat(randomX * 5), // exp: 270 * 5 -> more rotation
-                                           y: 0,
-                                           z: CGFloat(randomZ * 5),
-                                           duration: 0.5
-                        )
-                    )
+                                        
+                    // animate each dice we add
+                    roll(dice: diceNode)
                 }
             }
         }
+    }
+    
+    func rollAll() {
+        if !diceArray.isEmpty {
+            for dice in diceArray {
+                roll(dice: dice)
+            }
+        }
+    }
+    
+    func roll(dice: SCNNode) {
+        // calculate rotation; exp: 1 rotation = 1 * 90degree, 2 dice rotation = 2 * 90degree -> convert it to radian
+        // we didn't rotate around Y axis cz it is a vertical axis; like torsion, the upper face won't change
+        let randomX = Float(arc4random_uniform(4) + 1) * (Float.pi / 2) // at max it will be equal to 4*90=1 full 360 rotation
+        let randomZ = Float(arc4random_uniform(4) + 1) * (Float.pi / 2)
+
+        dice.runAction(
+            SCNAction.rotateBy(x: CGFloat(randomX * 5), // exp: 270 * 5 -> more rotation
+                               y: 0,
+                               z: CGFloat(randomZ * 5),
+                               duration: 0.5
+            )
+        )
+    }
+    
+    // linked to button in storyboard to refresh all dices
+    @IBAction func rollAgain(_ sender: UIBarButtonItem) {
+        rollAll()
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        // shake device
+        rollAll()
     }
     
     // ARSCNViewDelegate method: And as it says, it tells the delegate, which is this current view controller, that a SceneKit node corresponding to a new AR anchor(exp: a horizontal anchor(surface)) has been added to the scene. It means that it's detected a horizontal surface and it's given that detected surface a width and a height which is an AR anchor so that we'll be able to use it to place things or to visualize it.
