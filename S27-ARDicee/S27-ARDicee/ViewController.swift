@@ -18,6 +18,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // REMOVE THIS IN PRODUCTION
         // inspect vars to understand - there is many other options to append to this array
         self.sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints]
 
@@ -78,6 +79,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Pause the view's session
+        sceneView.session.pause()
+    }
+    
+    // MARK: - Dice Rendering Methods
+    
     // called when touch is detected in view or Window and convert user touches into real word location(x,y,z) using ARKit.
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first { // check if there endeed were touches and this method wasn't called min error
@@ -87,28 +97,25 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             
             if let hitResult = results.first {
-                // Create a new scene
-                let diceScene = SCNScene(named: "art.scnassets/diceCollada.scn")!
-               
-                if let diceNode = diceScene.rootNode.childNode(withName: "Dice", recursively: true) {    // Returns the first node in the node’s child node subtree with the specified name. recursively: true to search the entire child node subtree, or false to search only the node’s immediate children.
-                    diceNode.position = SCNVector3(x: hitResult.worldTransform.columns.3.x,
-                                                   y: hitResult.worldTransform.columns.3.y + diceNode.boundingSphere.radius,
-                                                   z: hitResult.worldTransform.columns.3.z
-                    )
-                    sceneView.scene.rootNode.addChildNode(diceNode)
-                                        
-                    // animate each dice we add
-                    roll(dice: diceNode)
-                }
+                addDice(atLocation: hitResult)
             }
         }
     }
     
-    func rollAll() {
-        if !diceArray.isEmpty {
-            for dice in diceArray {
-                roll(dice: dice)
-            }
+    func addDice(atLocation location: ARHitTestResult) {
+        // Create a new scene
+        let diceScene = SCNScene(named: "art.scnassets/diceCollada.scn")!
+       
+        if let diceNode = diceScene.rootNode.childNode(withName: "Dice", recursively: true) {    // Returns the first node in the node’s child node subtree with the specified name. recursively: true to search the entire child node subtree, or false to search only the node’s immediate children.
+            diceNode.position = SCNVector3(
+                x: location.worldTransform.columns.3.x,
+                y: location.worldTransform.columns.3.y + diceNode.boundingSphere.radius,
+                z: location.worldTransform.columns.3.z
+            )
+            sceneView.scene.rootNode.addChildNode(diceNode)
+                                
+            // animate each dice we add
+            roll(dice: diceNode)
         }
     }
     
@@ -125,6 +132,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                                duration: 0.5
             )
         )
+    }
+    
+    func rollAll() {
+        if !diceArray.isEmpty {
+            for dice in diceArray {
+                roll(dice: dice)
+            }
+        }
     }
     
     // linked to button in storyboard to refresh all dices
@@ -145,42 +160,38 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
+    // MARK: - ARSCNViewDelegateMethods
+    
     // ARSCNViewDelegate method: And as it says, it tells the delegate, which is this current view controller, that a SceneKit node corresponding to a new AR anchor(exp: a horizontal anchor(surface)) has been added to the scene. It means that it's detected a horizontal surface and it's given that detected surface a width and a height which is an AR anchor so that we'll be able to use it to place things or to visualize it.
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        print("plane detecggggted")
-        if anchor is ARPlaneAnchor {
-            // print("plane detected")
-            let planeAnchor = anchor as! ARPlaneAnchor
-            
-            let plane = SCNPlane(width: CGFloat(planeAnchor.extent.x), height: CGFloat(planeAnchor.extent.z))  // x * z NOT x * y -- inspect "extent": the last 3 lines says that y-component in always 0 cz it is a flat horizontal plan/anchor
-            
-            let planeNode = SCNNode()
-            
-            planeNode.position = SCNVector3(x: planeAnchor.center.x, y: 0, z: planeAnchor.center.z)
-            
-            planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)  // see GoodNotes
-            
-            // grid.png is the asset that Apple provided in their example for us to be able to visualize these plans.
-            // .png files type have transparencies and we can see the materials underneeath!! so we can see through them.
-            let gridMaterial = SCNMaterial()
-            
-            gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/grid.png")
-            
-            plane.materials = [gridMaterial]
-            
-            planeNode.geometry = plane
-            
-            node.addChildNode(planeNode)
-            
-        } else {
-            return
-        }
+        guard let planeAnchor = anchor as? ARPlaneAnchor else {return}
+
+        let planeNode = createPlan(withPlaneAnchor: planeAnchor)
+        
+        node.addChildNode(planeNode)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    // MARK: - Plane Rendering Methods
+    
+    func createPlan(withPlaneAnchor planeAnchor: ARPlaneAnchor) -> SCNNode {
+        let plane = SCNPlane(width: CGFloat(planeAnchor.extent.x), height: CGFloat(planeAnchor.extent.z))  // x * z NOT x * y -- inspect "extent": the last 3 lines says that y-component in always 0 cz it is a flat horizontal plan/anchor
         
-        // Pause the view's session
-        sceneView.session.pause()
+        let planeNode = SCNNode()
+        
+        planeNode.position = SCNVector3(x: planeAnchor.center.x, y: 0, z: planeAnchor.center.z)
+        
+        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)  // see GoodNotes
+        
+        // grid.png is the asset that Apple provided in their example for us to be able to visualize these plans.
+        // .png files type have transparencies and we can see the materials underneeath!! so we can see through them.
+        let gridMaterial = SCNMaterial()
+        
+        gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/grid.png")
+        
+        plane.materials = [gridMaterial]
+        
+        planeNode.geometry = plane
+        
+        return planeNode
     }
 }
