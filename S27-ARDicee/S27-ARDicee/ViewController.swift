@@ -92,9 +92,23 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     diceNode.position = SCNVector3(x: hitResult.worldTransform.columns.3.x,
                                                    y: hitResult.worldTransform.columns.3.y + diceNode.boundingSphere.radius,
                                                    z: hitResult.worldTransform.columns.3.z
-                )
-                sceneView.scene.rootNode.addChildNode(diceNode)
-               }
+                    )
+                    sceneView.scene.rootNode.addChildNode(diceNode)
+                    
+                    // calculate rotation; exp: 1 rotation = 1 * 90degree, 2 dice rotation = 2 * 90degree -> convert it to radian
+                    // we didn't rotate around Y axis cz it is a vertical axis; like torsion, the upper face won't change
+                    let randomX = Float(arc4random_uniform(4) + 1) * (Float.pi / 2) // at max it will be equal to 4*90=1 full 360 rotation
+                    let randomZ = Float(arc4random_uniform(4) + 1) * (Float.pi / 2)
+                    
+                    // animate
+                    diceNode.runAction(
+                        SCNAction.rotateBy(x: CGFloat(randomX * 5), // exp: 270 * 5 -> more rotation
+                                           y: 0,
+                                           z: CGFloat(randomZ * 5),
+                                           duration: 0.5
+                        )
+                    )
+                }
             }
         }
     }
