@@ -26,6 +26,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        sceneView.autoenablesDefaultLighting = true
+        
         // Create a session configuration
         let configuration = ARImageTrackingConfiguration()  // A configuration you use when you just want to track known images using the device's back camera feed.
         
@@ -62,6 +64,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let planeNode = SCNNode(geometry: plane)
             planeNode.eulerAngles.x = -.pi / 2  // -Float.pi / 2
             node.addChildNode(planeNode)
+            
+            if let pokeScene = SCNScene(named: "art.scnassets/eevee.scn") {
+                if let pokeNode = pokeScene.rootNode.childNodes.first {
+                    pokeNode.eulerAngles.x = .pi / 2
+                    planeNode.addChildNode(pokeNode)
+                }
+            }
         }
         
         return node
