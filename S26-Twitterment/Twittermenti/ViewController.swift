@@ -35,12 +35,28 @@ class ViewController: UIViewController {
             // results and metadata are to JSON we get back from twitter
             print(results)
             
-            var tweets = [String]()
+            var tweets = [TweetSentimentClassiferInput]()
             
             for i in 0..<100 {  // we received 100 tweets indexed from 0 to 99
                 if let tweet = results[i]["full_text"].string {  // .string will transform it from JSON to string? type (built-in swift functionality)
-                    tweets.append(tweet)
+                    tweets.append(TweetSentimentClassiferInput(text: tweet))
                 }
+            }
+            
+            do {
+                let predictions = try self.sentimentClassifier.predictions(inputs: tweets)
+                var sentimentScore = 0
+                for pred in predictions {
+                    let sentiment = pred.label
+                    if sentiment == "Pos" {
+                        sentimentScore += 1
+                    } else if sentiment == "Neg" {
+                        sentimentScore -= 1
+                    }   // ignore neutral
+                }
+                print(sentimentScore)
+            } catch {
+                print("There was an error with making a prediction, \(error)")
             }
 
         } failure: { (error) in
