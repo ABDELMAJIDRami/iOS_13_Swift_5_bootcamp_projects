@@ -20,7 +20,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        swifter.searchTweet(using: "@Apple") { (results, metadata) in
+        // our sentiment analyser was trained on English tweets, so we can only	interpret the sentiment in English
+        // argument 'lang' miust preced argument 'count' cz the order in the method follows the official api which will be transaleted to a search query
+        // text by default is truncated to 140 chars we can request full-text using TweetModef
+        swifter.searchTweet(using: "@Apple", lang: "en", count: 100, tweetMode: .extended) { (results, metadata) in
             // results and metadata are to JSON we get back from twitter
             print(results)
         } failure: { (error) in
