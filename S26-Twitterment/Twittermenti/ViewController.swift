@@ -37,11 +37,9 @@ class ViewController: UIViewController {
             
             var tweets = [String]()
             
-            if let tweet = results[0]["full_text"].string { // .string will transform it from JSON to string? type (built-in swift functionality)
-                for i in 0..<100 {  // we received 100 tweets indexed from 0 to 99
-                    if let tweet = results[i]["full_text"].string {
-                        tweets.append(tweet)
-                    }
+            for i in 0..<100 {  // we received 100 tweets indexed from 0 to 99
+                if let tweet = results[i]["full_text"].string {  // .string will transform it from JSON to string? type (built-in swift functionality)
+                    tweets.append(tweet)
                 }
             }
 
