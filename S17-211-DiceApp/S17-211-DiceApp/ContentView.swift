@@ -21,8 +21,8 @@ struct ContentView: View {
                 Image("diceeLogo")
                 Spacer() // A flexible space that expands along the major axis of its containing stack layout, or on both axes if not contained in a stack.
                 HStack {
-                    DiceeView(n: leftDiceNumber)
-                    DiceeView(n: rightDiceNumber)
+                    DiceView(n: leftDiceNumber)
+                    DiceView(n: rightDiceNumber)
                 }
                 // .padding()  // around all corners
                 .padding(.horizontal)
@@ -47,16 +47,5 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-    }
-}
-
-struct DiceeView: View {
-    let n: Int
-    var body: some View {
-        Image("dice\(n)")
-            .resizable()
-            .aspectRatio(1, // ratio of hight by width
-                         contentMode: .fit)
-            .padding()
     }
 }

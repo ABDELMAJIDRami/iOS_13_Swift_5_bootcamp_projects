@@ -36,6 +36,7 @@ class ViewController: UIViewController {
     }
     
     @objc func updateUI() {
+        quizBrain.nextQuestion()
         questionLabel.text = quizBrain.getQuestionText()
         trueButton.backgroundColor = UIColor.clear
         falseButton.backgroundColor = UIColor.clear

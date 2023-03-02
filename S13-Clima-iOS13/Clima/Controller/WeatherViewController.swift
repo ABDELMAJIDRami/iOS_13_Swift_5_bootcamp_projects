@@ -60,19 +60,7 @@ extension WeatherViewController: UITextFieldDelegate {  // this extension adopt 
         return true // allow the return process to go through...???
     }
     
-    // our controller, by being the delegate, will be notified when textField end editing
-    // implement special method that will be fired when .endEditing(true) is fired
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        if let city =  searchTextField.text {    // searchTextField is string? optional and we need to pass string to fetchWeather(). we will use if let to unwrapsearchTextField.text
-            weatherManager.fetchWeather(cityName: city)
-        }
-        
-        // textField.text = "55" // ref to the one ended editing
-         searchTextField.text = "" // clear field
-    }
-    
-    // every method that have "Should"in its naming is asking for permission
+    // every method that have "Should" in its naming is asking for permission
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         // here our view controller gets to decide what happens when the user tries to deselect the TextFied(when the user click 'return' or search button). Why prevent user to stop editing and trap them in editing mode? --> textFieldShouldEndEditing useful for doing validation on what user typed
         if textField.text != "" {
@@ -81,7 +69,19 @@ extension WeatherViewController: UITextFieldDelegate {  // this extension adopt 
             textField.placeholder = "Typesomething"
         }
         
+        
         return false; // don't allow the user to stop editing - keep the keyboard shown - and textFieldDidEndEditing method will not be triggered
+    }
+    
+    // our controller, by being the delegate, will be notified when textField end editing
+    // implement special method that will be fired when .endEditing(true) is fired
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let city =  searchTextField.text {    // searchTextField is string? optional and we need to pass string to fetchWeather(). we will use if let to unwrap searchTextField.text
+            weatherManager.fetchWeather(cityName: city)
+        }
+        
+        // textField.text = "55" // ref to the one ended editing
+         searchTextField.text = "" // clear field
     }
 }
 
@@ -107,7 +107,7 @@ extension WeatherViewController: WeatherManagerDelegate {
 extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            locationManager.stopUpdatingLocation()
+            locationManager.stopUpdatingLocation()  // no need bcz we are calling locationManager.requestLocation() - one time location request -  not locationManager.startUpdatingLocation()
             let lat = location.coordinate.latitude
             let lon = location.coordinate.longitude
             weatherManager.fetchWeather(latitude: lat, longitude: lon)

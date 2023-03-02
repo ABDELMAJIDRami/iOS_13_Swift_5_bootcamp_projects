@@ -11,6 +11,7 @@
 		2D75940C258237B800C38D59 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D75940B258237B800C38D59 /* ContentView.swift */; };
 		2D75940E258237B900C38D59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D75940D258237B900C38D59 /* Assets.xcassets */; };
 		2D759411258237B900C38D59 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D759410258237B900C38D59 /* Preview Assets.xcassets */; };
+		997B5AC929AC0A7C00FDD806 /* DiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997B5AC829AC0A7C00FDD806 /* DiceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		2D75940D258237B900C38D59 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D759410258237B900C38D59 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2D759412258237B900C38D59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		997B5AC829AC0A7C00FDD806 /* DiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				2D759409258237B800C38D59 /* S17_211_DiceAppApp.swift */,
 				2D75940B258237B800C38D59 /* ContentView.swift */,
+				997B5AC829AC0A7C00FDD806 /* DiceView.swift */,
 				2D75940D258237B900C38D59 /* Assets.xcassets */,
 				2D759412258237B900C38D59 /* Info.plist */,
 				2D75940F258237B900C38D59 /* Preview Content */,
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D75940C258237B800C38D59 /* ContentView.swift in Sources */,
+				997B5AC929AC0A7C00FDD806 /* DiceView.swift in Sources */,
 				2D75940A258237B800C38D59 /* S17_211_DiceAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,7 +273,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"S17-211-DiceApp/Preview Content\"";
-				DEVELOPMENT_TEAM = RY94A34KXM;
+				DEVELOPMENT_TEAM = Y7D9AZGRKM;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "S17-211-DiceApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -291,7 +295,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"S17-211-DiceApp/Preview Content\"";
-				DEVELOPMENT_TEAM = RY94A34KXM;
+				DEVELOPMENT_TEAM = Y7D9AZGRKM;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "S17-211-DiceApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

@@ -14,9 +14,9 @@ struct ContentView: View {
                 
             Color(red: 0.09, green: 0.63, blue: 0.52)
                 .edgesIgnoringSafeArea(.all)
-            VStack {
-                HStack {
-                    HStack {
+            VStack() {
+//                HStack {
+//                    HStack {
                         
                         Image("Rami")
                             .resizable()
@@ -28,10 +28,10 @@ struct ContentView: View {
                             .clipShape(Circle())
                             .overlay(   // overlay a component above a component
                                 // Circle()    // filled by default
-                                Circle().stroke(Color.white, lineWidth: 5)
+                                Circle().stroke(Color.white, lineWidth: 5), alignment: .bottom
                             )
-                    }
-                }
+                    
+//                }
                 Text("Rami Abdel Majid")
                     .font(Font.custom("Pacifico-Regular", size: 40))
                     .fontWeight(.bold)

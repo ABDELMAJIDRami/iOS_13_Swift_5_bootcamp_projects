@@ -25,9 +25,8 @@ class ViewController: UIViewController {
 //        diceImageView2.image = #imageLiteral(resourceName: "DiceThree")
 //    }
     
-
-    @IBAction func rollButtonPressed(_ sender: UIButton) {
-        let diceArray = [#imageLiteral(resourceName: "DiceOne"), #imageLiteral(resourceName: "DiceTwo"), #imageLiteral(resourceName: "DiceThree"), #imageLiteral(resourceName: "DiceFour"), #imageLiteral(resourceName: "DiceFive"), #imageLiteral(resourceName: "DiceSix")]
+    @IBAction func rollButtonPressed(_ sender: UIButton) {  // "sender" is "like" event in Javascript
+        var diceArray = [#imageLiteral(resourceName: "DiceOne"), #imageLiteral(resourceName: "DiceTwo"), #imageLiteral(resourceName: "DiceThree"), #imageLiteral(resourceName: "DiceFour"), #imageLiteral(resourceName: "DiceFive"), #imageLiteral(resourceName: "DiceSix")]
 
         diceImageView1.image = diceArray.randomElement()
         diceImageView2.image = diceArray.randomElement()

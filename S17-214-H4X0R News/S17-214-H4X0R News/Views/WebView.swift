@@ -14,7 +14,9 @@ struct WebView: UIViewRepresentable {
     let urlString: String?
     
     func makeUIView(context: Context) -> WKWebView {
-        return WKWebView()
+        let wkView = WKWebView()
+        wkView.uiDelegate = context.coordinator
+        return wkView;
     }
     
     func updateUIView(_ uiView: WKWebView, context: Context) {
@@ -26,10 +28,26 @@ struct WebView: UIViewRepresentable {
         }
     }
     
+    func makeCoordinator() -> Coordinator {
+        return Coordinator()
+    }
+    
     // typealias UIViewType = WKWebView
     
     /* what happened in my version of xcode is a bit different from what i typed in GoodNotes
-       1- first time xcode told me that i don't conform to protocol it added typealias field which i made it equal to the UIKit view i am planning to integrate in my swift ui
+       1- first time xcode told me that i don't conform to protocol it added typealias field which i made it equal to the UIKit view i am planning to integrate in my SwiftUI
        2- then xcode gave me the same message -> fix -> inserted 2 delegate methods with WKWebView automatically referenced in them
        3- i am able to delete typealias prop.. */
+}
+
+class Coordinator: NSObject, WKUIDelegate {
+//    var text: Binding<String>
+//
+//    init(_ text: Binding<String>) {
+//        self.text = text
+//    }
+//
+//    func textViewDidChange(_ textView: UITextView) {
+//        self.text.wrappedValue = textView.text
+//    }
 }
